@@ -1,15 +1,28 @@
 Package: gunLawsJH
-Title: What the Package Does (One Line, Title Case)
+Title: Gun Laws and Justifiable Homicides Replication Package
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(
+    person("Ivan", "Ribeiro", role = c("aut")),
+    person("Julio", "Trecenti", , "jtrecenti@unifesp.br", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1680-6389")),
+    person("Nelson", "Coelho", role = c("aut")),
+    person("Jessica", "Maruyama", role = c("aut")),
+    person("Abhay", "Aneja", role = c("aut")),
+    person("John", "Donohue", role = c("aut"))
+    )
+Description: Replication package for "Gun Laws and Justifiable Homicides: 
+    Contrasting Impacts on Civilians and Police?" This package provides 
+    datasets and functions to reproduce the analysis examining the association 
+    between right-to-carry and stand-your-ground laws and justifiable homicides 
+    committed by civilians and police officers. Includes state and city-level 
+    data from 1977-2020, regression modeling functions, event study analysis, 
+    and novel placebo permutation tests for robustness checking.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
-    R (>= 3.5)
+    R (>= 4.1)
 LazyData: true
 Suggests: 
     fs,
@@ -30,3 +43,5 @@ Imports:
     scales,
     stringr,
     tidyr
+URL: https://github.com/username/gunLawsJH
+BugReports: https://github.com/username/gunLawsJH/issues
