@@ -301,14 +301,14 @@ plot_window <- function(tab) {
     dplyr::mutate(
       # Create readable model labels
       model = dplyr::case_when(
-        name %in% c("model_1", "model_4") ~ "Civil", # Civilian JH
+        name %in% c("model_1", "model_4") ~ "Civilian", # Civilian JH
         name %in% c("model_2", "model_5") ~ "Police (SHR)", # Police JH from SHR
         name %in% c("model_3") ~ "Police (FENC)" # Police JH from FENC
       ),
       # Set factor levels for consistent ordering
       model = factor(
         model,
-        levels = c("Civil", "Police (SHR)", "Police (FENC)")
+        levels = c("Civilian", "Police (SHR)", "Police (FENC)")
       ),
       # Identify data level (State vs City)
       fm = dplyr::case_when(
@@ -320,10 +320,10 @@ plot_window <- function(tab) {
       facet = factor(
         facet,
         levels = c(
-          "RTC - Civil",
+          "RTC - Civilian",
           "RTC - Police (SHR)",
           "RTC - Police (FENC)",
-          "SYG - Civil",
+          "SYG - Civilian",
           "SYG - Police (SHR)",
           "SYG - Police (FENC)"
         )

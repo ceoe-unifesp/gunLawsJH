@@ -81,6 +81,7 @@ ggplot2::ggsave(
   height = 6
 )
 results_strategy2_w3$table04 |>
+  fixest::etable() |>
   plot_window()
 
 ggplot2::ggsave(
