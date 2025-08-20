@@ -11,7 +11,7 @@ This R package provides a complete replication package for the paper **"Gun Laws
 
 ## How to replicate the analysis
 
-First, download the package from GitHub from the [zip file]() or clone the repository.
+First, download the package from GitHub from the [zip file](https://github.com/ceoe-unifesp/gunLawsJH/archive/refs/heads/main.zip) or clone the repository.
 
 Then, open the project in RStudio or your preferred R environment and run the following commands to load all the necessary libraries:
 
