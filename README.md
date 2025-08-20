@@ -1,6 +1,9 @@
 # Gun Laws and Justifiable Homicides: Replication Package
 
-[![R-CMD-check](https://github.com/username/gunLawsJH/workflows/R-CMD-check/badge.svg)](https://github.com/username/gunLawsJH/actions)
+[![R-CMD-check](https://github.com/ceoe-unifesp/gunLawsJH/workflows/R-CMD-check/badge.svg)](https://github.com/ceoe-unifesp/gunLawsJH/actions)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16907906.svg)](https://doi.org/10.5281/zenodo.16907906)
+
 
 ## Overview
 
@@ -110,6 +113,23 @@ This script:
   - Event studies: ~1 minute
   - Placebo tests: 15-30 minutes (1,000 permutations)
 - **Storage**: ~20MB for raw data files
+
+## Citation
+
+If you use this replication package in your research, please cite the original paper:
+
+```latex
+@software{gunlawsjh_2025_16907906,
+  author       = {Julio Trecenti},
+  title        = {ceoe-unifesp/gunLawsJH: Replication},
+  month        = aug,
+  year         = 2025,
+  publisher    = {Zenodo},
+  version      = {v1.0.0},
+  doi          = {10.5281/zenodo.16907906},
+  url          = {https://doi.org/10.5281/zenodo.16907906},
+}
+```
 
 ## License
 
