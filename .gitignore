@@ -1,0 +1,9 @@
+.Rproj.user
+data-raw/csv
+data-raw/parquet
+data-raw/xlsx
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
