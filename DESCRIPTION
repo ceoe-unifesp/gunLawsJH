@@ -1,6 +1,6 @@
 Package: gunLawsJH
 Title: Gun Laws and Justifiable Homicides Replication Package
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: c(
     person("Ivan", "Ribeiro", role = c("aut")),
     person("Julio", "Trecenti", , "jtrecenti@unifesp.br", role = c("aut", "cre"),
