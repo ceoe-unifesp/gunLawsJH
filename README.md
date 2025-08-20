@@ -37,7 +37,7 @@ The package includes two main datasets:
 
 The complete analysis can be reproduced by running the R scripts in the `data-raw/` folder in sequence. Each script serves a specific purpose in the replication pipeline:
 
-### Step 1: Data Preparation (`0-data-prep.R`)
+### Step 1: Data Preparation (`data-raw/0-data-prep.R`)
 
 **Purpose**: Downloads raw data from external sources and prepares the analysis datasets.
 
@@ -52,14 +52,9 @@ This script:
 - Creates the `jh` (state-level) and `jh_city` (city-level) datasets
 - Saves processed data using `usethis::use_data()` for package inclusion
 
-**To run**:
-```r
-source("data-raw/0-data-prep.R")
-```
+You don't need to run this script again unless you want to reproduce the data preparation step or update the raw data files.
 
-**Output**: Creates `jh` and `jh_city` datasets in `data/` folder.
-
-### Step 2: Main Regression Models (`1-models.R`)
+### Step 2: Main Regression Models (`data-raw/1-models.R`)
 
 **Purpose**: Reproduces Tables 3 and 4 from the paper showing the main regression results.
 
@@ -75,16 +70,7 @@ This script:
 - **Table 4**: Same models but adding SYG × RTC interaction term
 - Uses appropriate clustering (state-level for models 1-3, state+city for models 4-5)
 
-**Key finding**: The interaction term in Table 4 shows a 165% increase in civilian justifiable homicides when both SYG and RTC laws are present.
-
-**To run**:
-```r
-source("data-raw/1-models.R")
-```
-
-**Output**: Prints regression tables to console showing coefficient estimates and standard errors.
-
-### Step 3: Event Study Analysis (`2-event-study.R`)
+### Step 3: Event Study Analysis (`data-raw/2-event-study.R`)
 
 **Purpose**: Creates event study plots to examine the timing of gun law effects and test for pre-existing trends.
 
@@ -95,19 +81,12 @@ This script:
 - Generates event study plots using `plot_window()` function
 - Saves plots as PDF files in `data-raw/pdf/`
 
-**Key insight**: Event studies reveal concerning pre-existing trends before law implementation, suggesting potential confounding factors.
-
-**To run**:
-```r
-source("data-raw/2-event-study.R")
-```
-
 **Output**: 
 - Event study plots saved as PDF files
 - Console output showing event study regression results
 - Visual evidence of pre-trends that complicate causal interpretation
 
-### Step 4: Placebo Permutation Tests (`3-placebo.R`)
+### Step 4: Placebo Permutation Tests (`data-raw/3-placebo.R`)
 
 **Purpose**: Implements novel placebo tests by randomly permuting law implementation years across states.
 
@@ -118,62 +97,9 @@ This script:
 - Creates placebo test visualizations using `plot_sim_placebo()`
 - Tests whether observed associations could occur by chance alone
 
-**Key finding**: Permutation tests suggest that observed effects may not reach conventional significance thresholds when accounting for multiple testing.
-
-**To run** (Note: computationally intensive, may take 30+ minutes):
-```r
-source("data-raw/3-placebo.R")
-```
-
 **Output**:
 - Placebo test plots showing distribution of random effects vs observed effects
 - Statistical evidence for/against significance of main findings
-
-### Running the Complete Analysis
-
-To reproduce all results from the paper:
-
-```r
-# Step 1: Prepare data (run once)
-source("data-raw/0-data-prep.R")
-
-# Step 2: Main regression results (Tables 3-4)
-source("data-raw/1-models.R")
-
-# Step 3: Event study analysis 
-source("data-raw/2-event-study.R")
-
-# Step 4: Placebo permutation tests (computationally intensive)
-source("data-raw/3-placebo.R")
-```
-
-### Alternative: Using Package Functions
-
-Once the package is loaded, you can also reproduce key analyses using the exported functions:
-
-```r
-# Load package and data
-devtools::load_all()
-
-# Main regression analysis
-fm_base <- JH_tot ~ shall_issue + syg_law + unemp_rate + log_police_rate + 
-           pct_pop_black + pct_republican + poverty_rate + log_pop + pct_pop_18_24
-
-fm_list <- create_formulas(fm_base)
-results <- fit_model_all(fm_list, jh, jh_city)
-
-# Event study with 2-year windows
-jh_windowed <- add_windows(jh)
-fm_event <- JH_tot ~ i(rtc_dist_w2, ref = -1) + i(syg_dist_w2, ref = -1) + 
-            unemp_rate + log_police_rate + pct_pop_black + pct_republican + 
-            poverty_rate + log_pop + pct_pop_18_24
-
-event_results <- fit_model_all(create_formulas(fm_event), jh_windowed, jh_city)
-plot_window(etable(event_results$table03))
-
-# Single placebo permutation (example)
-permute_result <- permute_years(1, permute = TRUE, jh)
-```
 
 ## Computational Requirements
 
