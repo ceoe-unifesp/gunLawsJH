@@ -45,7 +45,14 @@ sim <- purrr::map(
 aux_sim <- sim |>
   purrr::list_rbind()
 
-obs_coef <- permute_years(0, FALSE)
+obs_coef <- permute_years(
+  ii = 0,
+  permute = FALSE,
+  jh_state = jh,
+  jh_city = jh_city,
+  syg_year_state = syg_year_state,
+  rtc_year_state = rtc_year_state
+)
 
 plot_sim_placebo("table03")
 ggplot2::ggsave(

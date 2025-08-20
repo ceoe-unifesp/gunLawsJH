@@ -53,7 +53,7 @@ permute_years <- function(
     # Keep original law years (for baseline comparison)
     syg_permute <- syg_year_state |>
       dplyr::transmute(state, year_syg_permute = year_syg)
-    rtc_permute <- c |>
+    rtc_permute <- rtc_year_state |>
       dplyr::transmute(state, year_rtc_permute = year_rtc)
   }
 
