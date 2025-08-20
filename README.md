@@ -19,7 +19,7 @@ Then, open the project in RStudio or your preferred R environment and run the fo
 # Install devtools if not already installed
 if (!require(devtools)) install.packages("devtools")
 
-devtools::load_all()
+devtools::install()
 ```
 
 ## Data
