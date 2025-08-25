@@ -95,6 +95,20 @@ modelos_tab3 <- list(
 # print results for Table 03
 fixest::etable(modelos_tab3, digits = 3)
 
+pvalues_tab3 <- modelos_tab3 |>
+  purrr::map(broom::tidy) |>
+  purrr::set_names(
+    c(
+      "JH_pol",
+      "JH_cit",
+      "FENC_pol",
+      "JH_city_pol",
+      "JH_city_cit"
+    )
+  ) |>
+  purrr::list_rbind(names_to = "model") |>
+  janitor::clean_names()
+
 ## TABLE 04 -------------------------------------------------------------------
 
 # formulas for Table 04
@@ -193,3 +207,25 @@ modelos_tab4 <- list(
 
 # print results for Table 04
 fixest::etable(modelos_tab4, digits = 3)
+
+pvalues_tab4 <- modelos_tab4 |>
+  purrr::map(broom::tidy) |>
+  purrr::set_names(
+    c(
+      "JH_pol",
+      "JH_cit",
+      "FENC_pol",
+      "JH_city_pol",
+      "JH_city_cit"
+    )
+  ) |>
+  purrr::list_rbind(names_to = "model") |>
+  janitor::clean_names()
+
+writexl::write_xlsx(
+  list(
+    pvalues_tab3 = pvalues_tab3,
+    pvalues_tab4 = pvalues_tab4
+  ),
+  "data-raw/xlsx/tables_pvalues.xlsx"
+)
