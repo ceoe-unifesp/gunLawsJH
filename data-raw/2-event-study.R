@@ -37,19 +37,40 @@ results_strategy2_w2$table03 |>
   fixest::etable() |>
   plot_window()
 
+# pdf
 ggplot2::ggsave(
   "data-raw/pdf/strategy2_w2_table03.pdf",
   width = 8,
   height = 6
 )
+# tiff
+ggplot2::ggsave(
+  "data-raw/tiff/strategy2_w2_table03.tiff",
+  width = 8,
+  height = 6,
+  dpi = 300,
+  compression = "lzw",
+  bg = "white"
+)
+
 results_strategy2_w2$table04 |>
   fixest::etable() |>
   plot_window()
 
+# pdf
 ggplot2::ggsave(
   "data-raw/pdf/strategy2_w2_table04.pdf",
   width = 8,
   height = 6
+)
+# tiff
+ggplot2::ggsave(
+  "data-raw/tiff/strategy2_w2_table04.tiff",
+  width = 8,
+  height = 6,
+  dpi = 300,
+  compression = "lzw",
+  bg = "white"
 )
 
 # window size = 3
@@ -75,17 +96,38 @@ results_strategy2_w3$table03 |>
   fixest::etable() |>
   plot_window()
 
+# pdf
 ggplot2::ggsave(
   "data-raw/pdf/strategy2_w3_table03.pdf",
   width = 8,
   height = 6
 )
+# tiff
+ggplot2::ggsave(
+  "data-raw/tiff/strategy2_w3_table03.tiff",
+  width = 8,
+  height = 6,
+  dpi = 300,
+  compression = "lzw",
+  bg = "white"
+)
+
 results_strategy2_w3$table04 |>
   fixest::etable() |>
   plot_window()
 
+# pdf
 ggplot2::ggsave(
   "data-raw/pdf/strategy2_w3_table04.pdf",
   width = 8,
   height = 6
+)
+# tiff
+ggplot2::ggsave(
+  "data-raw/tiff/strategy2_w3_table04.tiff",
+  width = 8,
+  height = 6,
+  dpi = 300,
+  compression = "lzw",
+  bg = "white"
 )
