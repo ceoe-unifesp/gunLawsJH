@@ -116,7 +116,7 @@ This script:
 
 ## Citation
 
-If you use this replication package in your research, please cite the original paper:
+If you use this replication package in your research, please cite the package:
 
 ```latex
 @software{gunlawsjh_2025_16907906,
