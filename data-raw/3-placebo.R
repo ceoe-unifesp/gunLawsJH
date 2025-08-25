@@ -55,8 +55,18 @@ obs_coef <- permute_years(
 )
 
 plot_sim_placebo("table03")
+# pdf
 ggplot2::ggsave(
   "data-raw/pdf/placebo_table03.pdf",
   width = 8,
   height = 8
+)
+# tiff
+ggplot2::ggsave(
+  "data-raw/tiff/placebo_table03.tiff",
+  width = 8,
+  height = 8,
+  dpi = 300,
+  compression = "lzw",
+  bg = "white"
 )
