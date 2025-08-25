@@ -7,6 +7,9 @@
 #' @param da Data frame containing state-level data with binary law indicators
 #'   (syg_law, shall_issue) and year information.
 #'
+#' @param outside_window_na Logical indicating whether to remove observations
+#'  outside the defined time windows. Defaults to FALSE, meaning all data is kept.
+#'
 #' @return Data frame with additional columns for time distances from law
 #'   implementation at different window sizes (1, 2, 3, and 10 years), converted
 #'   to factors for regression analysis.
@@ -20,18 +23,21 @@
 #'   }
 #'
 #' @export
-add_windows <- function(da) {
+add_windows <- function(da, outside_window_na = FALSE) {
   da |>
     dplyr::group_by(state) |>
     dplyr::mutate(
       # Find first year SYG law was active (syg_law == 1) in each state
       year_syg = year[syg_law == 1][1],
       # Calculate years from SYG implementation (negative = before, positive = after)
-      syg_dist = year_syg - year,
+      syg_dist = year - year_syg,
 
       # Create 1-year window: cap distances at -1 and +1
       syg_dist_w1 = dplyr::case_when(
+        is.na(syg_dist) & outside_window_na ~ NA_real_,
         is.na(syg_dist) ~ -1, # States without SYG law = reference group
+        syg_dist < -1 & outside_window_na ~ NA_real_,
+        syg_dist > 1 & outside_window_na ~ NA_real_,
         syg_dist <= -1 ~ -1, # 1+ years before implementation
         syg_dist >= 1 ~ 1, # 1+ years after implementation
         .default = syg_dist # Year of implementation (0)
@@ -39,7 +45,10 @@ add_windows <- function(da) {
 
       # Create 2-year window: cap distances at -2 and +2
       syg_dist_w2 = dplyr::case_when(
+        is.na(syg_dist) & outside_window_na ~ NA_real_,
         is.na(syg_dist) ~ -2, # States without SYG law = reference group
+        syg_dist < -2 & outside_window_na ~ NA_real_,
+        syg_dist > 2 & outside_window_na ~ NA_real_,
         syg_dist <= -2 ~ -2, # 2+ years before implementation
         syg_dist >= 2 ~ 2, # 2+ years after implementation
         .default = syg_dist # Years -1, 0, 1 from implementation
@@ -47,15 +56,32 @@ add_windows <- function(da) {
 
       # Create 3-year window: cap distances at -3 and +3
       syg_dist_w3 = dplyr::case_when(
+        is.na(syg_dist) & outside_window_na ~ NA_real_,
         is.na(syg_dist) ~ -3, # States without SYG law = reference group
+        syg_dist < -3 & outside_window_na ~ NA_real_,
+        syg_dist > 3 & outside_window_na ~ NA_real_,
         syg_dist <= -3 ~ -3, # 3+ years before implementation
         syg_dist >= 3 ~ 3, # 3+ years after implementation
         .default = syg_dist # Years -2 to 2 from implementation
       ),
 
+      # Create -5-6-year window: cap distances at -5 and +6
+      syg_dist_w56 = dplyr::case_when(
+        is.na(syg_dist) & outside_window_na ~ NA_real_,
+        is.na(syg_dist) ~ -5, # States without SYG law = reference group
+        syg_dist < -5 & outside_window_na ~ NA_real_,
+        syg_dist > 6 & outside_window_na ~ NA_real_,
+        syg_dist <= -5 ~ -5, # 3+ years before implementation
+        syg_dist >= 6 ~ 6, # 3+ years after implementation
+        .default = syg_dist # Years -4 to 5 from implementation
+      ),
+
       # Create 10-year window: cap distances at -10 and +10
       syg_dist_w10 = dplyr::case_when(
+        is.na(syg_dist) & outside_window_na ~ NA_real_,
         is.na(syg_dist) ~ -10, # States without SYG law = reference group
+        syg_dist < -10 & outside_window_na ~ NA_real_,
+        syg_dist > 10 & outside_window_na ~ NA_real_,
         syg_dist <= -10 ~ -10, # 10+ years before implementation
         syg_dist >= 10 ~ 10, # 10+ years after implementation
         .default = syg_dist # Years -9 to 9 from implementation
@@ -64,32 +90,55 @@ add_windows <- function(da) {
       # Find first year RTC law was active (shall_issue == 1) in each state
       year_rtc = year[shall_issue == 1][1],
       # Calculate years from RTC implementation
-      rtc_dist = year_rtc - year,
+      rtc_dist = year - year_rtc,
 
       # Create RTC time windows (same logic as SYG above)
       rtc_dist_w1 = dplyr::case_when(
+        is.na(rtc_dist) & outside_window_na ~ NA_real_,
         is.na(rtc_dist) ~ -1, # States without RTC law = reference group
+        rtc_dist < -1 & outside_window_na ~ NA_real_,
+        rtc_dist > 1 & outside_window_na ~ NA_real_,
         rtc_dist <= -1 ~ -1, # 1+ years before implementation
         rtc_dist >= 1 ~ 1, # 1+ years after implementation
         .default = rtc_dist # Year of implementation (0)
       ),
 
       rtc_dist_w2 = dplyr::case_when(
+        is.na(rtc_dist) & outside_window_na ~ NA_real_,
         is.na(rtc_dist) ~ -2, # States without RTC law = reference group
+        rtc_dist < -2 & outside_window_na ~ NA_real_,
+        rtc_dist > 2 & outside_window_na ~ NA_real_,
         rtc_dist <= -2 ~ -2, # 2+ years before implementation
         rtc_dist >= 2 ~ 2, # 2+ years after implementation
         .default = rtc_dist # Years -1, 0, 1 from implementation
       ),
 
       rtc_dist_w3 = dplyr::case_when(
+        is.na(rtc_dist) & outside_window_na ~ NA_real_,
         is.na(rtc_dist) ~ -3, # States without RTC law = reference group
+        rtc_dist < -3 & outside_window_na ~ NA_real_,
+        rtc_dist > 3 & outside_window_na ~ NA_real_,
         rtc_dist <= -3 ~ -3, # 3+ years before implementation
         rtc_dist >= 3 ~ 3, # 3+ years after implementation
         .default = rtc_dist # Years -2 to 2 from implementation
       ),
 
+      # Create -5-6-year window: cap distances at -5 and +6
+      rtc_dist_w56 = dplyr::case_when(
+        is.na(rtc_dist) & outside_window_na ~ NA_real_,
+        is.na(rtc_dist) ~ -5, # States without SYG law = reference group
+        rtc_dist < -5 & outside_window_na ~ NA_real_,
+        rtc_dist > 6 & outside_window_na ~ NA_real_,
+        rtc_dist <= -5 ~ -5, # 3+ years before implementation
+        rtc_dist >= 6 ~ 6, # 3+ years after implementation
+        .default = rtc_dist # Years -4 to 5 from implementation
+      ),
+
       rtc_dist_w10 = dplyr::case_when(
+        is.na(rtc_dist) & outside_window_na ~ NA_real_,
         is.na(rtc_dist) ~ -10, # States without RTC law = reference group
+        rtc_dist < -10 & outside_window_na ~ NA_real_,
+        rtc_dist > 10 & outside_window_na ~ NA_real_,
         rtc_dist <= -10 ~ -10, # 10+ years before implementation
         rtc_dist >= 10 ~ 10, # 10+ years after implementation
         .default = rtc_dist # Years -9 to 9 from implementation
@@ -355,7 +404,7 @@ plot_window <- function(tab) {
     # Connect points with lines
     ggplot2::geom_line() +
     # Add vertical line at baseline period (year before implementation)
-    ggplot2::geom_vline(xintercept = -0.5, colour = "black", linetype = 3) +
+    ggplot2::geom_vline(xintercept = -1, colour = "black", linetype = 3) +
     # Add 95% confidence intervals (±2 standard errors)
     ggplot2::geom_errorbar(
       ggplot2::aes(ymin = num - err * 2, ymax = num + err * 2),
